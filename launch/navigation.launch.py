@@ -42,12 +42,24 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(pkg_nav2, 'launch', 'navigation_launch.py')),
         launch_arguments={
-            'params_file': [os.path.join(pkg_robotino_navigation, 'config', 'nav2_params.yaml')],
+            'params_file': [os.path.join(pkg_robotino_navigation, 'config', 'julio_params_test.yaml')],
             'use_sim_time': LaunchConfiguration('use_sim_time')
         }.items(),
     )
 
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        arguments=[
+             '-d', os.path.join(pkg_robotino_navigation, 'rviz', 'navigation.rviz')
+        ],
+        condition=IfCondition(LaunchConfiguration('rviz'))
+    )
+
     return LaunchDescription([
+
+        DeclareLaunchArgument('rviz', default_value='true',description='Open RViz.'),
         use_sim_time_arg,
         nav_2,
+        rviz,
     ])
