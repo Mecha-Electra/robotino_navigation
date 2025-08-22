@@ -37,17 +37,25 @@ def generate_launch_description():
         default_value='true',
         description='Use simulation time (true for simulation, false for real robot)'
     )
+
+    # Argumento para o YAML
+    slam_params_file_arg = DeclareLaunchArgument(
+        'slam_params_file',
+        default_value=os.path.join(pkg_robotino_navigation, 'config', 'mapper_params_online_async.yaml'),
+        description='Full path to the YAML file with slam_toolbox parameters'
+    )
     
     slam_toolbox = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_ros_slam_toolbox, 'launch', 'online_async_launch.py')),
         launch_arguments={
-            'slam_params_file': [os.path.join(pkg_robotino_navigation, 'config', 'mapper_params_online_async.yaml')],
+            'slam_params_file': LaunchConfiguration('slam_params_file'),
             'use_sim_time': LaunchConfiguration('use_sim_time')
         }.items(),
     )
 
     return LaunchDescription([
         use_sim_time_arg,
+        slam_params_file_arg,
         slam_toolbox,
     ])

@@ -37,12 +37,19 @@ def generate_launch_description():
         default_value='true',
         description='Use simulation time (true for simulation, false for real robot)'
     )
+
+    # Argumento para o YAML
+    nav2_params_file_arg = DeclareLaunchArgument(
+        'nav2_params_file',
+        default_value=os.path.join(pkg_robotino_navigation, 'config', 'nav2_params.yaml'),
+        description='Full path to the YAML file with nav2 parameters'
+    )
     
     nav_2 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(pkg_nav2, 'launch', 'navigation_launch.py')),
         launch_arguments={
-            'params_file': [os.path.join(pkg_robotino_navigation, 'config', 'julio_params_test.yaml')],
+            'nav2_params_file': LaunchConfiguration('nav2_params_file'),
             'use_sim_time': LaunchConfiguration('use_sim_time')
         }.items(),
     )
@@ -59,6 +66,7 @@ def generate_launch_description():
     return LaunchDescription([
 
         DeclareLaunchArgument('rviz', default_value='true',description='Open RViz.'),
+        nav2_params_file_arg,
         use_sim_time_arg,
         nav_2,
         rviz,
