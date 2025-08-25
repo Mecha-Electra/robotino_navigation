@@ -49,7 +49,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             os.path.join(pkg_nav2, 'launch', 'navigation_launch.py')),
         launch_arguments={
-            'nav2_params_file': LaunchConfiguration('nav2_params_file'),
+            'params_file': LaunchConfiguration('nav2_params_file'),
             'use_sim_time': LaunchConfiguration('use_sim_time')
         }.items(),
     )
