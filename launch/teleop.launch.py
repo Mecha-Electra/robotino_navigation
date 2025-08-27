@@ -40,6 +40,17 @@ def generate_launch_description():
         }.items(),
     )
 
+    rviz = Node(
+        package='rviz2',
+        executable='rviz2',
+        arguments=[
+             '-d', os.path.join(pkg_robotino_navigation, 'rviz', 'navigation.rviz')
+        ],
+        condition=IfCondition(LaunchConfiguration('rviz'))
+    )
+
     return LaunchDescription([
+        DeclareLaunchArgument('rviz', default_value='true',description='Open RViz.'),
         teleop,
+        rviz
     ])
