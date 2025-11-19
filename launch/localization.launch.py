@@ -43,7 +43,6 @@ def generate_launch_description():
         default_value=os.path.join(pkg_robotino_navigation, 'config', 'localizer_params_online_async.yaml'),
         description='Full path to the SLAM Toolbox parameters file to use'
     )
-
     
     slam_toolbox = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(

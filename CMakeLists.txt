@@ -41,4 +41,15 @@ install(
   DESTINATION share/${PROJECT_NAME}/rviz
 )
 
+install(
+  DIRECTORY scripts/
+  DESTINATION lib/${PROJECT_NAME}
+  FILES_MATCHING PATTERN "*.py"
+)
+
+install(PROGRAMS
+  scripts/set_initial_pose.py
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 ament_package()

@@ -32,6 +32,9 @@ def generate_launch_description():
     pkg_robotino_navigation = get_package_share_directory('robotino_navigation')
     pkg_nav2 = get_package_share_directory('nav2_bringup')
 
+    map_yaml_path = '/home/robot/maps/EmptyMap.yaml'
+
+
     use_sim_time_arg = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
@@ -63,11 +66,26 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration('rviz'))
     )
 
+    submap_layer = Node(
+        package='real_robotino_pkg',
+        executable='submap_publisher.py',
+        name='submap_publisher',
+        output='screen',
+        parameters=[
+            {'map_yaml_path': map_yaml_path},
+            {'frame_id': 'obstacle_map'},
+            {'parent_frame_id': 'map'},
+            {'topic_name': '/obstacle_layer_map'},
+            {'publish_rate': 1.0}
+        ]
+    )
+
     return LaunchDescription([
 
         DeclareLaunchArgument('rviz', default_value='true',description='Open RViz.'),
         nav2_params_file_arg,
         use_sim_time_arg,
         nav_2,
+        #submap_layer,
         rviz,
     ])
