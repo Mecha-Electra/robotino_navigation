@@ -34,7 +34,6 @@ def generate_launch_description():
 
     map_yaml_path = '/home/robot/maps/EmptyMap.yaml'
 
-
     use_sim_time_arg = DeclareLaunchArgument(
         'use_sim_time',
         default_value='true',
